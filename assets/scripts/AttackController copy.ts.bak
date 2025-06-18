@@ -1,0 +1,37 @@
+import { __private, _decorator, Component, EventTouch, input, Input, instantiate, Node, Prefab, RigidBody, Vec3 } from 'cc';
+const { ccclass, property } = _decorator;
+
+@ccclass('AttackController')
+export class AttackController extends Component {
+
+
+    @property
+    bulletSpeed: number = 30;
+
+    @property(Prefab)
+    bulletPrefab: Prefab = null;
+
+    @property(Node)
+    bulletParent: Node = null;
+
+    start() {
+
+        input.on(Input.EventType.TOUCH_START, this.onTouchStart, this);
+
+    }
+    onTouchStart(event :EventTouch) {
+         const bullet = instantiate(this.bulletPrefab)
+         bullet.setParent(this.bulletParent)
+        //  bullet.setPosition(0,0,0)
+         bullet.setWorldPosition(this.node.position)
+         const rgd =  bullet.getComponent(RigidBody)
+         console.log(rgd)
+         rgd.setLinearVelocity(new Vec3(0,0,-this.bulletSpeed))
+    }
+
+    update(deltaTime: number) {
+        
+    }
+}
+
+
